@@ -19,58 +19,26 @@ struct node *createNode(int data)
     return n;
 }
 
-void inorderTraversal(struct node *root)
+struct node *search(struct node *root, int key)
 {
-    if (root != NULL)
+    if(root == NULL)
     {
-        inorderTraversal(root->left);
-        printf("%d\t", root->data);
-        inorderTraversal(root->right);
+        return NULL;
     }
-}
 
-int isBST(struct node *root)
-{
-    static struct node *prev = NULL;
-    if (root != NULL)
+    if(key == root->data)
     {
-        if (!isBST(root->left))
-        {
-            return 0;
-        }
-        if (prev != NULL && root->data <= prev->data)
-        {
-            return 0;
-        }
-        prev = root;
-
-        return isBST(root->right);
+        return root;
+    }
+    else if (key < root->data)
+    {
+        return search(root->left, key);
     }
     else
     {
-        return 1;
+        return search(root->right, key);
     }
-}
-
-struct node *searchIter(struct node *root, int key)
-{
-    while (root != NULL)
-    {
-        if (key == root->data)
-        {
-            return root;
-        }
-        else if (key < root->data)
-        {
-            root = root->left;
-        }
-        else
-        {
-            root = root->right;
-        }
-    }
-
-    return NULL;   // if null or not available value is given this will return null otherwise value will be returned from while loop
+    
 }
 
 int main()
@@ -93,7 +61,7 @@ int main()
     //    / \
     //   1   4
 
-    struct node *n = searchIter(p, 4);
+    struct node *n = search(p, 7);
     if (n != NULL)
     {
         printf("Found: %d\n", n->data);
